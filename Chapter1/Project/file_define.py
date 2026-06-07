@@ -1,13 +1,36 @@
+from data_define import Record
+
+
 class FileReader:
     def read_data(self):
         pass
 
 class TextFileReader(FileReader):
+    path = None
+
+    def __init__(self, path):
+        self.path = path
+
     def read_data(self):
-        # Réaliser:
-        # 1. Lire et récuperer des données en 'January2023'
-        # 2. Chaque ligne: 2023-01-01,4b34218c-9f37-4e66-b33e-327ecd5fb897,1689,湖南省
-        # -> record = Record("2023-01-01", "4b34218c-9f37-4e66-b33e-327ecd5fb897", 1689, "湖南省")
-        #     print(record)
-        # 3. Afficher tous les records
-        pass
+        f = open(self.path, "r", encoding="utf-8")
+
+        record_list: list[Record] = []
+        for line in f.readlines():
+            line = line.strip()
+            line = line.split(",")
+            date = line[0]
+            order_id = line[1]
+            money = line[2]
+            province = line[3]
+            record = Record(date, order_id, money, province)
+            record_list.append(record)
+
+        f.close()
+        return record_list
+
+class JsonFileReader(FileReader):
+    pass
+
+if __name__ == "__main__":
+    text_file_reader = TextFileReader("January2023SalesData.txt")
+    text_file_reader.read_data()

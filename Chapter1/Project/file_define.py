@@ -22,7 +22,7 @@ class TextFileReader(FileReader):
             line = line.split(",")
             date = line[0]
             order_id = line[1]
-            money = line[2]
+            money = int(line[2])
             province = line[3]
             record = Record(date, order_id, money, province)
             record_list.append(record)
